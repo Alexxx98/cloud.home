@@ -1,0 +1,50 @@
+version: "3.8"
+
+networks:
+  - db.net:
+  - backend.net:
+  - frontend.net:
+
+volumes:
+  data_base:
+  
+
+services:
+  db:
+    image: postgres:17-alpine
+    expose:
+      - 5432
+    volumes:
+      - data_base:/var/postgres/data_base
+    env_file:
+      - postgres.env
+    networks:
+      - db.net
+
+  backend:
+    build: ./backend
+    expose:
+      - 8080
+    networks:
+      - db.net
+      - backend.net
+    depends_on:
+      - db
+
+  frontend:
+    build: ./frontend
+    expose:
+      - 3000
+    networks:
+      - frontend.net
+    depends_on:
+      - backend
+
+  gateway:
+    build: ./nginx
+    networks:
+      - backend.net
+      - frontend.net
+    depends_on:
+      - backend
+      - frontend
