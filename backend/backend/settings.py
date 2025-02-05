@@ -26,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-45*^kozm75e+=7%g4y*v0o7*^o(vmtd%22f9pin0k8$i6ihp2v'
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'authentication',
     'meel_planner',
     'rest_framework',
+    'rest_framework_simplejwt',
     'corsheaders',
 ]
 
@@ -141,6 +142,15 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Setting user model by which django will authenticate
 
 AUTH_USER_MODEL = 'authentication.User'
+
+
+# Rest framework options
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+}
 
 
 # CORS origins
