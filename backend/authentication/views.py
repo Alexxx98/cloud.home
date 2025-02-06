@@ -5,7 +5,7 @@ from .serializers import RegistrationSerializer
 # Create your views here.
 
 class RegistrationView(APIView):
-    def post(request):
+    def post(self, request):
         serializer = RegistrationSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
