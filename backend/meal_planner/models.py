@@ -12,11 +12,9 @@ class Ingredient(models.Model):
 
 class Recipe(models.Model):
     name = models.CharField()
-    ingredients = ArrayField(
-        models.ForeignKey(
-            Ingredient,
-            on_delete=models.CASCADE,
-        ), 
+    ingredients = models.ManyToManyField(
+        Ingredient,
+        related_name='ingredients'
     )
     content = models.TextField()
 
@@ -26,12 +24,9 @@ class Recipe(models.Model):
 
 class MealPlan(models.Model):
     name=models.CharField(max_length=64)
-    recipes = ArrayField(
-        models.ForeignKey(
-            Recipe,
-            on_delete=models.CASCADE
-        ),
-        size=7
+    recipes = models.ManyToManyField(
+        Recipe,
+        related_name='recipes'
     )
 
     def __str__(self):
