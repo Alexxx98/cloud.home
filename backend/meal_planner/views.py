@@ -1,6 +1,7 @@
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import status
+from rest_framework.generics import (
+    ListCreateAPIView,
+    RetrieveUpdateDestroyAPIView
+)
 from .serializers import (
     IngredientSerializer, 
     RecipeSerializer,
@@ -12,21 +13,34 @@ from .models import (
     MealPlan
 )
 
-# Create your views here.
-class IngredientView(APIView):
-    def get(self):
-        ingredients = Ingredient.objects.all()
-        serializer = IngredientSerializer(ingredients, many=True)
-        return Response(serializer.data)
+# Ingredient views
+class IngredientListCreate(ListCreateAPIView):
+    queryset = Ingredient.objects.all()
+    serializer_class = IngredientSerializer
 
 
-    def post(self, request):
-        serializer = IngredientSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(
-                {'result': 'Ingredient successfully added'},
-                status.HTTP_201_CREATED
-            )
-        return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
+class IngredientDetail(RetrieveUpdateDestroyAPIView):
+    queryset = Ingredient.objects.all()
+    serializer_class = IngredientSerializer
 
+
+# Recipes views
+class RecipesListCreate(ListCreateAPIView):
+    queryset = Recipe.objects.all()
+    serializer_class = RecipeSerializer
+
+
+class RecipeDetail(RetrieveUpdateDestroyAPIView):
+    queryset = Recipe.objects.all()
+    serializer_class = RecipeSerializer
+
+
+# Meal plans views
+class MealPlansListCreate(ListCreateAPIView):
+    queryset = MealPlan.objects.all()
+    serializer_class = MealPlanSerializer
+
+
+class MealPlanDetail(RetrieveUpdateDestroyAPIView):
+    queryset = MealPlan.objects.all()
+    serializer_class = MealPlanSerializer

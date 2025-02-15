@@ -7,7 +7,7 @@ class Ingredient(models.Model):
     ingredient_type = models.CharField(max_length=64)
 
     def __str__(self):
-        return f'{self.ingredient_type}, {self.name}'
+        return f'{self.name}'
 
 
 class Recipe(models.Model):
